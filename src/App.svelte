@@ -1,17 +1,34 @@
 <script lang="ts">
-  import Counter from "./comps/Counter.svelte";
+  import Header from "./comps/Header.svelte";
+  import Footer from "./comps/Footer.svelte";
+  import Tabs from "./shared/Tabs.svelte";
+  import CreateSkin from "./comps/CreateSkin.svelte";
+  import SkinList from "./comps/SkinList.svelte";
+
+  let tabs = ["Current Skins", "All Skins", "New Skin"];
+  let activeTab = "Current Skins";
+
+  const tabChange = (e) => {
+    activeTab = e.detail;
+    console.log(e.detail);
+  };
+
+  function handleAddSkin(e) {
+    activeTab = "Current Skins";
+  }
 </script>
 
+<Header />
 <main>
-  <div class="container px-5 py-24 mx-auto">
-    <div class="flex justify-center flex-wrap -mx-4 -mb-10 text-center">
-      <div class="w-full mb-10 px-4">
-        <h2 class="title-font text-7xl font-medium text-gray-900 mt-6 mb-3">Hello Tailwind + TypeScript!</h2>
-        <Counter />
-      </div>
-    </div>
-  </div>
+  <Tabs activeTab="{activeTab}" tabs="{tabs}" on:tabChange="{tabChange}" />
+
+  {#if activeTab === "Current Skins"}
+    <SkinList />
+  {:else if activeTab === "New Skin"}
+    <h1><CreateSkin on:createSkin="{handleAddSkin}" /></h1>
+  {/if}
 </main>
+<Footer />
 
 <style global lang="postcss">
   @tailwind base;
